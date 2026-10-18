@@ -21,7 +21,7 @@ Kode yang terlihat menyimpan data melalui `localStorage` dengan kunci `habit-tra
 
 ## Batasan dan verifikasi
 
-Nama kebiasaan dirender sebagai teks, termasuk nama yang berisi tag HTML. Impor memvalidasi seluruh berkas sebelum mengganti data: maksimal 1 MiB, 500 kebiasaan, 500 karakter JavaScript per nama yang tidak kosong, status `done` boolean, `streak` bilangan bulat 0-1.000.000, serta tanggal kalender `YYYY-MM-DD` atau `null` untuk penyelesaian terakhir. Ekspor lama dengan field lengkap tetap didukung. Data lama yang hanya memiliki nama memakai nilai awal `done: false`, `streak: 0`, dan `lastDoneDate: null`; tanggal berkas yang tidak tersedia memakai hari lokal saat ini. Field tambahan diabaikan.
+Nama kebiasaan dirender sebagai teks, termasuk nama yang berisi tag HTML. Impor memvalidasi seluruh berkas sebelum mengganti data: maksimal 1 MiB, 500 kebiasaan, 500 karakter JavaScript per nama yang tidak kosong, status `done` boolean, `streak` bilangan bulat 0–1.000.000, serta tanggal kalender `YYYY-MM-DD` atau `null` untuk penyelesaian terakhir. Ekspor lama dengan field lengkap tetap didukung. Data lama yang hanya memiliki nama memakai nilai awal `done: false`, `streak: 0`, dan `lastDoneDate: null`; tanggal berkas yang tidak tersedia memakai hari lokal saat ini. Field tambahan diabaikan.
 
 Impor yang tidak valid atau gagal disimpan tidak mengganti daftar maupun data tersimpan. Data localStorage yang rusak tidak ditimpa saat startup; aplikasi menampilkan pesan dan daftar kosong. Menambah kebiasaan atau mengimpor cadangan yang valid kemudian menyimpan data baru. Ekspor hanya mencakup daftar yang sedang ditampilkan, bukan salinan data rusak tersebut.
 
