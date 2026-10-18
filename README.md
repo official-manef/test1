@@ -16,8 +16,25 @@ Kode yang terlihat menyimpan data melalui `localStorage` dengan kunci `habit-tra
 
 ## Struktur
 
-- `index.html` — antarmuka, gaya, dan JavaScript aplikasi.
+- `index.html` - antarmuka, gaya, dan JavaScript aplikasi.
+- `tests/security.test.cjs` - regresi browser untuk impor, penyimpanan, render, dan tanggal lokal.
 
 ## Batasan dan verifikasi
 
-Halaman menyediakan operasi menambah, mengedit, menghapus, serta menandai kebiasaan, perhitungan streak dan progres, ekspor/impor JSON, dan reset data melalui JavaScript di `index.html`. Fungsionalitas tersebut teridentifikasi dari kode dan belum diuji langsung dalam browser pada audit dokumentasi ini; tidak ada skrip pengujian otomatis di repositori.
+Nama kebiasaan dirender sebagai teks, termasuk nama yang berisi tag HTML. Impor memvalidasi seluruh berkas sebelum mengganti data: maksimal 1 MiB, 500 kebiasaan, 500 karakter JavaScript per nama yang tidak kosong, status `done` boolean, `streak` bilangan bulat 0–1.000.000, serta tanggal kalender `YYYY-MM-DD` atau `null` untuk penyelesaian terakhir. Ekspor lama dengan field lengkap tetap didukung. Data lama yang hanya memiliki nama memakai nilai awal `done: false`, `streak: 0`, dan `lastDoneDate: null`; tanggal berkas yang tidak tersedia memakai hari lokal saat ini. Field tambahan diabaikan.
+
+Impor yang tidak valid atau gagal disimpan tidak mengganti daftar maupun data tersimpan. Data localStorage yang rusak tidak ditimpa saat startup; aplikasi menampilkan pesan dan daftar kosong. Menambah kebiasaan atau mengimpor cadangan yang valid kemudian menyimpan data baru. Ekspor hanya mencakup daftar yang sedang ditampilkan, bukan salinan data rusak tersebut.
+
+Pergantian hari saat pemuatan dan impor memakai tanggal lokal browser. Tab yang terus terbuka melewati tengah malam masih perlu dimuat ulang. Riwayat streak lengkap, sinkronisasi antar-tab/perangkat, dan pemicu confetti belum diperbaiki dalam perubahan ini.
+
+## Pengujian browser
+
+Untuk menyiapkan alat tes (Node.js 20 atau lebih baru):
+
+```sh
+npm ci
+npx playwright install chromium
+npm test
+```
+
+Tes membuka halaman sintetis di Chromium, memblokir semua permintaan eksternal, dan memakai data lokal sintetis. Cakupannya meliputi nama HTML berbahaya saat impor/pemuatan ulang, ekspor-impor valid, data legacy, penolakan atomik schema/batas ukuran, pemulihan storage rusak, kegagalan penyimpanan, dan pergantian hari di Asia/Jakarta. Tes tidak membuktikan ketersediaan CDN, tampilan CSS, atau layanan produksi.
