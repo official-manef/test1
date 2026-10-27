@@ -4,7 +4,13 @@ Aplikasi web statis satu halaman untuk melacak kebiasaan harian. Implementasi ya
 
 ## Menjalankan
 
-Buka `index.html` langsung di browser. Tidak ada langkah instalasi atau skrip proyek yang tercantum.
+Buka `index.html` langsung di browser, atau sajikan direktorinya:
+
+```bash
+python3 -m http.server 8000
+```
+
+Tidak ada langkah build. Satu-satunya skrip proyek adalah `npm run env:check`, yang memeriksa kesesuaian nama variabel lingkungan antara kode dan `.env.example`; halaman ini tidak membaca variabel lingkungan apa pun.
 
 Halaman memuat Tailwind CSS, ikon Lucide, pustaka `canvas-confetti`, dan font Inter dari CDN. Ketersediaan aset eksternal tersebut bergantung pada akses jaringan.
 
@@ -16,8 +22,10 @@ Kode yang terlihat menyimpan data melalui `localStorage` dengan kunci `habit-tra
 
 ## Struktur
 
-- `index.html` — antarmuka, gaya, dan JavaScript aplikasi.
+- `index.html`: antarmuka, gaya, dan JavaScript aplikasi.
 
 ## Batasan dan verifikasi
 
-Halaman menyediakan operasi menambah, mengedit, menghapus, serta menandai kebiasaan, perhitungan streak dan progres, ekspor/impor JSON, dan reset data melalui JavaScript di `index.html`. Fungsionalitas tersebut teridentifikasi dari kode dan belum diuji langsung dalam browser pada audit dokumentasi ini; tidak ada skrip pengujian otomatis di repositori.
+Halaman menyediakan operasi menambah, mengedit, menghapus, serta menandai kebiasaan, perhitungan streak dan progres, ekspor/impor JSON, dan reset data melalui JavaScript di `index.html`.
+
+Verifikasi terakhir dijalankan di browser pada 375px dan desktop: menambah kebiasaan, menandai selesai lewat checkbox dengan keyboard, mengedit, menghapus dengan konfirmasi, reset dengan konfirmasi, dan pemulihan dari `localStorage` yang rusak. Tidak ada skrip pengujian otomatis di repositori.
